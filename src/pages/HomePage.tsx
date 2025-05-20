@@ -5,7 +5,9 @@ import Hero from "../components/general/Hero"
 function Home() {
   return (
   <>
+  
 <Hero/>
+
 {/* <div className="grid grid-cols-5 grid-rows-5 gap-4 p-4 bg-gray-950">
   <div className="col-span-2 row-span-5 overflow-hidden rounded-2xl shadow-lg">
     <img
