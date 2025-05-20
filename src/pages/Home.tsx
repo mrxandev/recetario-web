@@ -1,11 +1,12 @@
-import App from "../components/App"
+import GetAllRecipes from "../components/recipes/GetAllRecipes";
 
 
 function Home() {
   return (
   <>
 <h1>HomePage</h1>
-<App/>
+<GetAllRecipes/>
+
   </>
 
   )
