@@ -44,7 +44,7 @@ export default function Home() {
       {recipes.map((recipe) => (
         <div key={recipe.id} className="rounded-xl shadow-md p-4 bg-white">
           <h2 className="text-xl font-bold mb-2">{recipe.title}</h2>
-          <img src={recipe.image_url} alt={recipe.title} className="w-full rounded-lg mb-4" />
+          <img src={recipe.image_url} alt={recipe.title} className="w-full rounded-lg mb-4" loading='lazy'/>
           <p className="mb-2">{recipe.description}</p>
           <span>{recipe.time} min</span>
 
