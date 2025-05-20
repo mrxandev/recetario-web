@@ -8,6 +8,7 @@ import { AuthProvider } from './context/AuthContext'
 import Signup from './components/auth/Signup'
 import RecipePage from './pages/RecipePage'
 import Navbar from './components/general/Navbar'
+import NotFound from './pages/NotFound'
 
 
 
@@ -19,7 +20,7 @@ createRoot(document.getElementById('root')!).render(
     <Navbar/>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path='*' element={<h1 className='text-6xl text-red-600 flex justify-center items-center'>404</h1>} />
+        <Route path='*' element={<NotFound/>} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup/>} />
         <Route path='/recetas' element={<RecipePage/>} />
