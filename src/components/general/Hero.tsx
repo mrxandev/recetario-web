@@ -27,8 +27,6 @@ function Hero() {
               Explorar Recetas
             </div>
           </a>
-
-          {/*  */}
         </div>
       </div>
       </div>
