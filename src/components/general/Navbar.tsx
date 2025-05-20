@@ -46,7 +46,7 @@ function Navbar() {
 
       {/* Menú Móvil desplegable */}
       {isOpen && (
-        <div className="md:hidden bg-gray-900 px-6 py-4 space-y-4 font-bold">
+        <div className="md:hidden bg-gray-950 px-6 py-4 space-y-4 font-bold">
           <a
             href="/recipes"
             className="block text-white hover:text-indigo-500 transition-colors duration-300"
