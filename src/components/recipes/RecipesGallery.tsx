@@ -38,7 +38,7 @@ export default function RecipesGallery() {
   const gridClasses = [
     "col-span-3 md:col-span-2 md:row-span-5",
     "col-span-3 md:col-span-2 md:row-span-3 md:col-start-3",
-    "col-span-2 md:row-span-2 md:col-start-3 md:row-start-4",
+    "col-span-3 md:col-span-2 md:row-span-2 md:col-start-3 md:row-start-4",
     "col-span-3 md:col-span-1 row-span-3 md:col-start-5 md:row-start-1",
     "col-span-3 md:col-span-1 row-span-2 md:col-start-5 md:row-start-4",
   ]
