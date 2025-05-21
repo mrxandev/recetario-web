@@ -21,10 +21,10 @@ function Hero() {
               Explorar Recetas <ArrowRightIcon className="" size={20} />
             </div>
           </a>
-          {/* Button popular */}
-          <a href="/popular">
+          {/* Button mis Recetas */}
+          <a href="/misrecetas">
             <div className="w-48 h-12 flex items-center justify-center gap-2 bg-gray-950 text-white rounded-lg p-4 border border-white/10 hover:bg-purple-950 transition duration-400">
-              Explorar Recetas
+              Mis Recetas
             </div>
           </a>
         </div>
