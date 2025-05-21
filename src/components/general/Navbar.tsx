@@ -48,7 +48,7 @@ function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-gray-950 px-6 py-4 space-y-4 font-bold">
           <a
-            href="/recipes"
+            href="/recetas"
             className="block text-white hover:text-indigo-500 transition-colors duration-300"
             onClick={() => setIsOpen(false)}
           >
