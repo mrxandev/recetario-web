@@ -54,19 +54,15 @@ export default function RecipesGallery() {
 
       <div className="grid md:grid-cols-5 md:grid-rows-5 gap-4 mt-8 max-h-[500px]">
         {recipes.map((recipe, index) => {
-          const tagArray = recipe.tags?.[0] ? Object.values(recipe.tags[0]) : []
+    
           return (
-            <div key={recipe.id} className={`rounded-2xl bg-indigo-${300 + index * 100} ${gridClasses[index]}`}>
+            <div key={recipe.id} className={`rounded-2xl hover:scale-105 transition-transform duration-400 bg-indigo-${300 + index * 100} ${gridClasses[index]}`}>
               <div className="relative h-full w-full">
                 <img className="rounded-2xl object-cover w-full h-full" src={recipe.image_url} alt={recipe.title} />
                 <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40 rounded-2xl" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
-                  <h3 className="text-white text-lg font-bold">{recipe.title}</h3>
-                  <ul className="flex flex-wrap gap-2 text-white text-xs font-semibold mt-2">
-                    {tagArray.map((tag, i) => (
-                      <li key={i} className="bg-gray-800/70 px-2 py-1 rounded-full">{tag}</li>
-                    ))}
-                  </ul>
+                  <h3 className="text-3xl  font-bold tracking-tight">{recipe.title}</h3>
+             
                 </div>
               </div>
             </div>
