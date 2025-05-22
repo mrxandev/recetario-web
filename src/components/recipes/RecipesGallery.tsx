@@ -56,7 +56,7 @@ export default function RecipesGallery() {
         {recipes.map((recipe, index) => {
     
           return (
-            <div key={recipe.id} className={`rounded-2xl hover:scale-105 transition-transform duration-400 bg-indigo-${300 + index * 100} ${gridClasses[index]}`}>
+            <div key={recipe.id} className={`rounded-2xl brightness-50 hover:brightness-105 transition-all duration-400 bg-indigo-${300 + index * 100} ${gridClasses[index]}`}>
               <div className="relative h-full w-full">
                 <img className="rounded-2xl object-cover w-full h-full" src={recipe.image_url} alt={recipe.title} />
                 <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40 rounded-2xl" />
