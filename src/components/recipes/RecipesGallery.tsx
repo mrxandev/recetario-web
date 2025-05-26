@@ -52,7 +52,7 @@ export default function RecipesGallery() {
         <a className="flex gap-2 text-indigo-700 cursor-pointer">Ver todas</a>
       </div>
 
-      <div className="grid md:grid-cols-5 md:grid-rows-5 gap-4 mt-8 max-h-[500px]">
+      <div className="grid md:grid-cols-5 md:grid-rows-5 gap-4 mt-8 md:max-h-[500px]">
         {recipes.map((recipe, index) => {
     
           return (
