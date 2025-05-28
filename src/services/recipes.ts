@@ -22,3 +22,14 @@ export async function getFeaturedRecipes(limit = 5) {
   if (error) throw error;
   return data;
 }
+
+export async function getLatestRecipes(limit = 3) {
+  const { data, error } = await supabase
+    .from('recipes')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  if (error) throw error;
+  return data;
+}
