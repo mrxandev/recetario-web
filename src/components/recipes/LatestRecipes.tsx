@@ -48,7 +48,7 @@ export default function LatestRecipes() {
                 <div className="flex flex-wrap gap-8 justify-center">
                 {
                     recipes.map((recipe) => (
-                        <div key={recipe.id} className="min-w-[420px] bg-gray-900/50 shadow-md rounded-2xl mb-4">
+                        <div key={recipe.id} className="max-w-[300px] md:min-w-[420px] bg-gray-900/50 shadow-md rounded-2xl mb-4">
                             <img src={recipe.image_url} alt={recipe.title} className="w-full h-48 object-cover rounded mb-2" />
                             <div className="p-4 text-white">
                                 <h2 className="text-xl font-bold mb-2">{recipe.title}</h2>
