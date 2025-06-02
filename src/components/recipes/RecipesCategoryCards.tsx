@@ -18,7 +18,7 @@ function RecipesCategoryCard() {
           {categories.map((category, index) => (
             <div 
               key={index} 
-              className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 max-w-xs h-48 bg-gray-900 rounded-2xl text-white p-6 flex flex-col justify-end items-center gap-2 hover:bg-gray-800 transition duration-300 cursor-pointer shadow-lg hover:shadow-xl"
+              className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 max-w-xs h-48 bg-gray-900 rounded-2xl text-white p-6 flex flex-col justify-end items-center gap-2 hover:bg-gray-800 transition duration-300  shadow-lg hover:shadow-xl"
             >
             <p className="w-16 h-16 text-indigo-500 rounded-full p-4 bg-indigo-500/20 flex justify-center items-center"> {category.icon=="fork" ? <Utensils size={40} className="mb-2" /> : category.icon=="chef" ? <ChefHat size={40} className="mb-2" /> : category.icon=="timer" ? <Clock size={40} className="mb-2" /> : <BookOpen size={40} className="mb-2" />}</p>
               <h2 className="text-xl font-bold">{category.title}</h2>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import {  getLatestRecipes } from "../../services/recipes"
 import { Clock } from "lucide-react"
+import { NavLink } from "react-router-dom"
 
 type Ingredient = {
     cantidad: string
@@ -42,12 +43,13 @@ export default function LatestRecipes() {
 
     return (
         <>
-            <div className="w-[90%]  mx-auto p-4">
+            <div className="w-[90%]  mx-auto p-4 ">
                 <h1 className="text-2xl font-bold mb-8 mt-4">Últimas Recetas</h1>
 
                 <div className="flex flex-wrap gap-8 justify-center">
                 {
                     recipes.map((recipe) => (
+                        <NavLink key={recipe.id} to={`/recipes/${recipe.id}`} className="no-underline">
                         <div key={recipe.id} className="max-w-[300px] md:min-w-[420px] bg-gray-900/50 shadow-md rounded-2xl mb-4">
                             <img src={recipe.image_url} alt={recipe.title} className="w-full h-48 object-cover rounded mb-2" />
                             <div className="p-4 text-white">
@@ -79,6 +81,7 @@ export default function LatestRecipes() {
                                 </div>
                             </div>
                         </div>
+                        </NavLink>
                     ))
                 }
                 </div>
