@@ -33,3 +33,14 @@ export async function getLatestRecipes(limit = 3) {
   if (error) throw error;
   return data;
 }
+
+export async function getSpecifictRecipe(recipeId: string) {
+  const { data, error } = await supabase
+    .from('recipes')
+    .select('*')
+    .eq('id', recipeId)
+  
+
+  if (error) throw error;
+  return data;
+}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import { getFeaturedRecipes } from "../../services/recipes" 
+import { getFeaturedRecipes } from "../../services/recipes"
+import { NavLink } from "react-router-dom" 
 
 type Ingredient = {
   cantidad: string
@@ -46,7 +47,7 @@ export default function RecipesGallery() {
   if (loading) return <p className="text-center mt-4">Cargando recetas destacadas...</p>
 
   return (
-    <div className="w-[90%] mx-auto mt-8">
+    <div className="w-[90%] mx-auto mt-8 ">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Recetas Destacadas</h2>
         <a className="flex gap-2 text-indigo-700 cursor-pointer">Ver todas</a>
@@ -56,7 +57,9 @@ export default function RecipesGallery() {
         {recipes.map((recipe, index) => {
     
           return (
+            
             <div key={recipe.id} className={`rounded-2xl brightness-50 hover:brightness-105 transition-all duration-400 bg-indigo-${300 + index * 100} ${gridClasses[index]}`}>
+              <NavLink key={recipe.id} to={`/recipes/${recipe.id}`} className="no-underline">
               <div className="relative h-full w-full">
                 <img className="rounded-2xl object-cover w-full h-full" src={recipe.image_url} alt={recipe.title} />
                 <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40 rounded-2xl" />
@@ -65,7 +68,9 @@ export default function RecipesGallery() {
              
                 </div>
               </div>
+              </NavLink>
             </div>
+       
           )
         })}
       </div>
