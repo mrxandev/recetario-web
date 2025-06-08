@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAllRecipes } from '../../services/recipes';
+import { NavLink } from 'react-router-dom';
 
 type Ingredient = {
   cantidad: string;
@@ -20,7 +21,7 @@ type Recipe = {
   image_url: string;
   video_id: string;
   created_at: string;
-  time:string
+  time: string
 };
 
 export default function Home() {
@@ -40,48 +41,26 @@ export default function Home() {
   if (loading) return <p className="text-center">Cargando recetas...</p>;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-      {recipes.map((recipe) => (
-        <div key={recipe.id} className="rounded-xl shadow-md p-4 bg-gray-950">
-          <h2 className="text-xl font-bold mb-2">{recipe.title}</h2>
-          <img src={recipe.image_url} alt={recipe.title} className="w-full rounded-lg mb-4" loading='lazy'/>
-          <p className="mb-2">{recipe.description}</p>
-          <span>{recipe.time} min</span>
+    <>
+      <div className="w-[90%] mx-auto justify-center items-center flex flex-wrap gap-4 p-4">
+        {recipes.map((recipe) => (
+          <NavLink key={recipe.id} to={`/recipes/${recipe.id}`} className="no-underline">
+            {/* <div key={recipe.id} className="relative  rounded-xl shadow-md p-4 bg-gray-950">
+              <img src={recipe.image_url} alt={recipe.title} className=" rounded-lg mb-4 " loading='lazy' />
 
-          {recipe.video_id && (
-            <iframe
-              className="w-full rounded mb-4"
-              height="200"
-              src={`https://www.youtube.com/embed/${recipe.video_id}`}
-              title="Video de la receta"
-              allowFullScreen
-            ></iframe>
-          )}
+              <h2 className="absolute w-full h-full text-xl font-bold mb-2">{recipe.title}</h2>
 
-          <div className="mt-4">
-            <h3 className="font-semibold">Ingredientes:</h3>
-            <ul className="list-disc pl-5">
-              {recipe.ingredients.map((ing, i) => (
-                <li key={i}>
-                  {ing.cantidad} - {ing.descripcion}
-                </li>
-              ))}
-            </ul>
-          </div>
+            </div> */}
 
-          <div className="mt-4">
-            <h3 className="font-semibold">Pasos:</h3>
-            <ul className="pl-5">
-              {recipe.steps.map((step,i) => (
-                  <li key={i}>
-                  {step.step}- 
-                  {step.instruction} 
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      ))}
-    </div>
+            <div className=" h-[500px] w-[500px] bg-red-400 rounded-xl">
+                <img src={recipe.image_url} alt={recipe.title} className="relative w-full h-full rounded-lg mb-4 " loading='lazy' />
+                 <p className="absolute inset-0 z-50  text-xl font-bold mb-2 text-white">{recipe.title}</p>
+
+            </div>
+
+          </NavLink>
+        ))}
+      </div>
+    </>
   );
 }
