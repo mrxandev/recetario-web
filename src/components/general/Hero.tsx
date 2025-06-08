@@ -7,7 +7,7 @@ function Hero() {
       <div className="w-[90%] flex flex-col items-center text-center bg-linear-to-br from-purple-950/60 to-gray-950 p-16 mt-16 gap-8 rounded-3xl">
         <ChefHat className="text-indigo-500" size={70} />
         <h1 className="text-5xl md:text-6xl font-bold tracking-tight ">
-          Recetas UNAPEC
+          Kitchen Passion
         </h1>
         <p className="text-xl text-white/75 max-w-2xl mx-auto ">
           Descubre el arte de la cocina con nuestras recetas cuidadosamente
