@@ -10,7 +10,7 @@ function Navbar() {
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
           <ChefHat className="text-indigo-500" size={30} />
-          <p className="text-white text-xl font-bold">Recetas UNAPEC</p>
+          <p className="text-white text-xl font-bold">Kitchen Passion</p>
         </a>
 
         {/* Menú Desktop */}
