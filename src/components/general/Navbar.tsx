@@ -14,7 +14,7 @@ function Navbar() {
         </a>
 
         {/* Menú Desktop */}
-        <nav className="hidden md:flex gap-6 font-bold">
+        <nav className="hidden md:flex justify-center items-center gap-6 font-bold">
           <a
             href="/recetas"
             className="text-white hover:text-indigo-500 transition-colors duration-300"
@@ -28,10 +28,10 @@ function Navbar() {
             Nosotros
           </a>
           <a
-            href="/contactoo"
-            className="text-white hover:text-indigo-500 transition-colors duration-300"
+            href="/login"
+            className="text-white bg-green-500 hover:bg-green-500/70 p-2 rounded-xl transition-colors duration-300"
           >
-            Contacto
+            Acceder
           </a>
         </nav>
 
@@ -62,11 +62,11 @@ function Navbar() {
             Nosotros
           </a>
           <a
-            href="/contacto"
-            className="block text-white hover:text-indigo-500 transition-colors duration-300"
+            href="/login"
+            className="block text-white bg-green-500 hover:bg-green-500/70 p-2 rounded-xl transition-colors duration-300"
             onClick={() => setIsOpen(false)}
           >
-            Contacto
+            Acceder
           </a>
         </div>
       )}
