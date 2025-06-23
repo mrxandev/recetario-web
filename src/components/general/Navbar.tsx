@@ -1,8 +1,16 @@
 import { ChefHat, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from '../../context/AuthContext'; 
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const handleLogout = async () => {
+    await logout();
+    setIsOpen(false);
+     const dataId = "sb-ppbqkbzqavtqyfghmopc-auth-token" 
+     window.localStorage.removeItem(dataId)
+  }
 
   return (
     <header className="bg-gray-950">
@@ -27,12 +35,23 @@ function Navbar() {
           >
             Nosotros
           </a>
-          <a
-            href="/login"
-            className="text-white bg-green-500 hover:bg-green-500/70 p-2 rounded-xl transition-colors duration-300"
-          >
-            Acceder
-          </a>
+        
+          {user ? ( 
+            <a
+              href="/"
+              className="text-white bg-red-500 hover:bg-red-500/70 p-2 rounded-xl transition-colors duration-300"
+              onClick={handleLogout}
+            >
+              Cerrar Sesion
+            </a>
+          ) : ( 
+            <a
+              href="/login"
+              className="text-white bg-green-500 hover:bg-green-500/70 p-2 rounded-xl transition-colors duration-300"
+            >
+              Acceder
+            </a>
+          )}
         </nav>
 
         {/* Botón de menú móvil */}
@@ -61,13 +80,24 @@ function Navbar() {
           >
             Nosotros
           </a>
-          <a
-            href="/login"
-            className="block text-white bg-green-500 hover:bg-green-500/70 p-2 rounded-xl transition-colors duration-300"
-            onClick={() => setIsOpen(false)}
-          >
-            Acceder
-          </a>
+       
+          {user ? (
+            <a
+              href="/" 
+              className="block text-white bg-red-500 hover:bg-red-500/70 p-2 rounded-xl transition-colors duration-300"
+              onClick={handleLogout}
+            >
+              Cerrar Sesion
+            </a>
+          ) : (
+            <a
+              href="/login"
+              className="block text-white bg-green-500 hover:bg-green-500/70 p-2 rounded-xl transition-colors duration-300"
+              onClick={() => setIsOpen(false)}
+            >
+              Acceder
+            </a>
+          )}
         </div>
       )}
     </header>
