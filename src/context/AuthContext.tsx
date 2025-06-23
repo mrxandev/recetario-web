@@ -3,6 +3,7 @@ import type { User } from '@supabase/supabase-js';
 import type { ReactNode } from 'react';
 import { supabase } from '../supabaseClient';
 
+
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<Error | null>;
