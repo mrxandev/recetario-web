@@ -28,27 +28,28 @@ type RecipeType = {
 }
 
 function Recipe() {
-    const { recipeId } = useParams<{ recipeId: string }>(); 
+    const { recipeId } = useParams<{ recipeId: string }>();
     const [recipe, setRecipe] = useState<RecipeType | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [isLike, setIsLike] = useState(false);
 
     useEffect(() => {
-       
+
         if (recipeId) {
-      
+
             const idAsNumber = parseInt(recipeId, 10);
 
-            
+
             if (isNaN(idAsNumber)) {
                 setError("ID de receta inválido.");
                 setLoading(false);
-                return; 
+                return;
             }
 
-            getSpecifictRecipe(idAsNumber.toString()) 
-                .then((data: RecipeType[]) => { 
-                    setRecipe(data[0]); 
+            getSpecifictRecipe(idAsNumber.toString())
+                .then((data: RecipeType[]) => {
+                    setRecipe(data[0]);
                 })
                 .catch((err) => {
                     console.error("Error fetching recipe:", err);
@@ -58,13 +59,13 @@ function Recipe() {
                     setLoading(false);
                 });
         } else {
-         
+
             setLoading(false);
             setError("ID de receta no proporcionado en la URL.");
         }
-    }, [recipeId]); 
+    }, [recipeId]);
 
-   
+
     if (loading) {
         return <p className="text-center mt-4">Cargando receta...</p>;
     }
@@ -79,17 +80,36 @@ function Recipe() {
 
 
     return (
-        <div className="w-[90%] mx-auto my-10 text-white">
-        
+        <div className="w-[70%] mx-auto my-10 text-white">
+
             <div className="mb-6">
                 <img
-                    src={recipe.image_url} 
+                    src={recipe.image_url}
                     alt={recipe.title}
                     className="w-full h-96 object-cover rounded-lg shadow-lg"
                 />
             </div>
 
-            <h1 className="text-4xl font-extrabold mb-4 text-orange-400">{recipe.title}</h1>
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-4xl font-extrabold mb-4 text-orange-400">{recipe.title}</h1>
+                {
+                    isLike ? (
+                        <button
+                            className="text-red-500 hover:text-red-700 transition-colors"
+                            onClick={() => setIsLike(!isLike)}
+                        >
+                            <span className="text-2xl">❤️</span>
+                        </button>
+                    ) : (
+                        <button
+                            className="text-gray-400 hover:text-gray-200 transition-colors"
+                            onClick={() => setIsLike(!isLike)}
+                        >
+                            <span className="text-2xl">🤍</span>
+                        </button>
+                    )
+                }
+            </div>
             <p className="text-lg text-gray-300 mb-6 leading-relaxed">{recipe.description}</p>
 
             {/* Time */}
