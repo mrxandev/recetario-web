@@ -47,7 +47,7 @@ export default function Login() {
           <button type="submit" className="bg-blue-600 text-white py-2 w-full">Acceder</button>
 
           <div className="flex gap-2 mt-4">
-            <p className=''>Necesitas una cuenta? |</p>
+            <p className=''>¿Necesitas una cuenta? |</p>
             <a href="/signup">Registar</a>
           </div>
         </form>
