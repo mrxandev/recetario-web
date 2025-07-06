@@ -50,7 +50,7 @@ export default function RecipesGallery() {
     <div className="w-[90%] mx-auto mt-8 ">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Recetas Destacadas</h2>
-        <a className="flex gap-2 text-indigo-700 cursor-pointer">Ver todas</a>
+        <a className="flex gap-2 text-indigo-700 cursor-pointer hover:underline">Ver todas</a>
       </div>
 
       <div className="grid md:grid-cols-5 md:grid-rows-5 gap-4 mt-8 md:max-h-[500px]">

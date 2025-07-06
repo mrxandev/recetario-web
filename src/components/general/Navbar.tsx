@@ -84,7 +84,7 @@ function Navbar() {
           {user ? (
             <a
               href="/" 
-              className="block text-white bg-red-500 hover:bg-red-500/70 p-2 rounded-xl transition-colors duration-300"
+              className="block text-white bg-red-600 hover:bg-red-800 p-2 rounded-xl transition-colors duration-300"
               onClick={handleLogout}
             >
               Cerrar Sesion
@@ -92,7 +92,7 @@ function Navbar() {
           ) : (
             <a
               href="/login"
-              className="block text-white bg-green-500 hover:bg-green-500/70 p-2 rounded-xl transition-colors duration-300"
+              className="block text-white bg-green-600 hover:bg-green-800 p-2 rounded-xl transition-colors duration-300"
               onClick={() => setIsOpen(false)}
             >
               Acceder
