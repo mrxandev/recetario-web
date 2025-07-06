@@ -14,7 +14,7 @@ function Navbar() {
 
   return (
     <header className="bg-gray-950">
-      <div className="h-16 w-full flex justify-between items-center px-6 md:px-12">
+      <div className="h-16 w-screen flex justify-between items-center px-6 md:px-12">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
           <ChefHat className="text-indigo-500" size={30} />
@@ -84,7 +84,7 @@ function Navbar() {
           {user ? (
             <a
               href="/" 
-              className="block text-white bg-red-500 hover:bg-red-500/70 p-2 rounded-xl transition-colors duration-300"
+              className="block text-white bg-red-600 hover:bg-red-800 p-2 rounded-xl transition-colors duration-300"
               onClick={handleLogout}
             >
               Cerrar Sesion
@@ -92,7 +92,7 @@ function Navbar() {
           ) : (
             <a
               href="/login"
-              className="block text-white bg-green-500 hover:bg-green-500/70 p-2 rounded-xl transition-colors duration-300"
+              className="block text-white bg-green-600 hover:bg-green-800 p-2 rounded-xl transition-colors duration-300"
               onClick={() => setIsOpen(false)}
             >
               Acceder
