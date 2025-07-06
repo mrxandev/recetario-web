@@ -14,7 +14,7 @@ function Navbar() {
 
   return (
     <header className="bg-gray-950">
-      <div className="h-16 w-full flex justify-between items-center px-6 md:px-12">
+      <div className="h-16 w-screen flex justify-between items-center px-6 md:px-12">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
           <ChefHat className="text-indigo-500" size={30} />
