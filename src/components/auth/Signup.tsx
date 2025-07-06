@@ -43,7 +43,7 @@ export default function Signup() {
         <button type="submit" className="bg-green-600 text-white py-2 w-full">Registrarse</button>
 
         <div className="flex gap-2 mt-4">
-          <p className=''>Tienes una cuenta? |</p>
+          <p className=''>¿Tienes una cuenta? |</p>
           <a href="/login">Acceder</a>
         </div>
       </form>
