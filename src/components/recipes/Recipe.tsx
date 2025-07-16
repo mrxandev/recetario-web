@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getSpecifictRecipe } from "../../services/recipes";
+import { addToFavorites, removeFromFavorites, isFavorite } from "../../services/favorites";
+import { useAuth } from "../../context/AuthContext";
 import { Clock } from "lucide-react";
 
 
@@ -33,13 +35,11 @@ function Recipe() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [isLike, setIsLike] = useState(false);
+    const { user } = useAuth();
 
     useEffect(() => {
-
         if (recipeId) {
-
             const idAsNumber = parseInt(recipeId, 10);
-
 
             if (isNaN(idAsNumber)) {
                 setError("ID de receta inválido.");
@@ -50,6 +50,15 @@ function Recipe() {
             getSpecifictRecipe(idAsNumber.toString())
                 .then((data: RecipeType[]) => {
                     setRecipe(data[0]);
+                    
+                    // Check if this recipe is already in user's favorites
+                    if (user) {
+                        return isFavorite(user.id, idAsNumber);
+                    }
+                    return false;
+                })
+                .then((favoriteStatus) => {
+                    setIsLike(favoriteStatus);
                 })
                 .catch((err) => {
                     console.error("Error fetching recipe:", err);
@@ -59,11 +68,30 @@ function Recipe() {
                     setLoading(false);
                 });
         } else {
-
             setLoading(false);
             setError("ID de receta no proporcionado en la URL.");
         }
-    }, [recipeId]);
+    }, [recipeId, user]);
+
+    const handleLikeToggle = async () => {
+        if (!user || !recipe) {
+            alert("Debes iniciar sesión para agregar favoritos");
+            return;
+        }
+
+        try {
+            if (isLike) {
+                await removeFromFavorites(user.id, recipe.id);
+                setIsLike(false);
+            } else {
+                await addToFavorites(user.id, recipe.id);
+                setIsLike(true);
+            }
+        } catch (error) {
+            console.error("Error toggling favorite:", error);
+            alert("Error al actualizar favoritos. Inténtalo de nuevo.");
+        }
+    };
 
 
     if (loading) {
@@ -96,14 +124,14 @@ function Recipe() {
                     isLike ? (
                         <button
                             className="text-red-500 hover:text-red-700 transition-colors"
-                            onClick={() => setIsLike(!isLike)}
+                            onClick={handleLikeToggle}
                         >
                             <span className="text-2xl">❤️</span>
                         </button>
                     ) : (
                         <button
                             className="text-gray-400 hover:text-gray-200 transition-colors"
-                            onClick={() => setIsLike(!isLike)}
+                            onClick={handleLikeToggle}
                         >
                             <span className="text-2xl">🤍</span>
                         </button>
