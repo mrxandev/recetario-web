@@ -1,6 +1,25 @@
 import { ChefHat, ArrowRight, Heart, Sparkles } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { useNotification } from "../../context/NotificationContext";
 
 function Hero() {
+  const { user } = useAuth();
+  const { showNotification } = useNotification();
+  const navigate = useNavigate();
+
+  const handleFavoritesClick = (e: React.MouseEvent) => {
+    if (!user) {
+      e.preventDefault();
+      showNotification(
+        'warning',
+        'Inicia sesión requerido',
+        'Debes iniciar sesión para ver tus recetas favoritas'
+      );
+      navigate('/login');
+      return;
+    }
+  };
   return (
     <div className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
       {/* Background Elements */}
@@ -41,21 +60,22 @@ function Hero() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-          <a 
-            href="/recetas"
+          <Link 
+            to="/recetas"
             className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-indigo-500/25 min-w-[200px]"
           >
             <span>Explorar Recetas</span>
             <ArrowRight className="group-hover:translate-x-1 transition-transform duration-300" size={20} />
-          </a>
+          </Link>
 
-          <a 
-            href="/misrecetas"
+          <Link 
+            to="/misrecetas"
+            onClick={handleFavoritesClick}
             className="group relative inline-flex items-center justify-center gap-3 bg-gray-800/50 hover:bg-gray-700/50 backdrop-blur-sm text-white font-semibold px-8 py-4 rounded-xl border border-gray-600 hover:border-gray-500 transition-all duration-300 transform hover:scale-105 shadow-xl min-w-[200px]"
           >
             <Heart className="group-hover:text-red-400 transition-colors duration-300" size={18} />
             <span>Mis Favoritas</span>
-          </a>
+          </Link>
         </div>
 
         {/* Stats or additional info */}

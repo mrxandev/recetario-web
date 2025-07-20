@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useNotification } from '../../context/NotificationContext';
 import { User, ChevronDown, LogOut } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { showNotification } = useNotification();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -15,6 +18,19 @@ const Navbar = () => {
       setIsUserMenuOpen(false);
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
+    }
+  };
+
+  const handleMyRecipesClick = (e: React.MouseEvent) => {
+    if (!user) {
+      e.preventDefault();
+      showNotification(
+        'warning',
+        'Inicia sesión requerido',
+        'Debes iniciar sesión para ver tus recetas favoritas'
+      );
+      navigate('/login');
+      return;
     }
   };
 
@@ -66,18 +82,17 @@ const Navbar = () => {
                 Todas las Recetas
               </Link>
               
-              {user && (
-                <Link
-                  to="/misrecetas"
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    isActive('/misrecetas') 
-                      ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30' 
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                  }`}
-                >
-                  Mis Recetas
-                </Link>
-              )}
+              <Link
+                to="/misrecetas"
+                onClick={handleMyRecipesClick}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  isActive('/misrecetas') 
+                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30' 
+                    : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                }`}
+              >
+                Mis Recetas
+              </Link>
             </div>
           </div>
 
@@ -196,18 +211,17 @@ const Navbar = () => {
               Todas las Recetas
             </Link>
             
-            {user && (
-              <Link
-                to="/misrecetas"
-                className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
-                  isActive('/misrecetas') 
-                    ? 'bg-indigo-600 text-white shadow-lg' 
-                    : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                }`}
-              >
-                Mis Recetas
-              </Link>
-            )}
+            <Link
+              to="/misrecetas"
+              onClick={handleMyRecipesClick}
+              className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                isActive('/misrecetas') 
+                  ? 'bg-indigo-600 text-white shadow-lg' 
+                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+              }`}
+            >
+              Mis Recetas
+            </Link>
           </div>
 
           {/* Auth Section - Mobile */}
