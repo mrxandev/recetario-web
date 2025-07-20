@@ -6,8 +6,11 @@ export async function getAllRecipes() {
     .select('*')
     .order('created_at', { ascending: false });
 
+  if (error) {
+    console.error('Error loading recipes:', error);
+    throw error;
+  }
   
-  if (error) throw error;
   return data;
 }
 
@@ -86,10 +89,20 @@ export async function getRecipeFilters() {
     .select('time, tags')
     .order('created_at', { ascending: false });
 
-  if (error) throw error;
+  if (error) {
+    console.error('Error loading filters:', error);
+    throw error;
+  }
 
-  // Extract unique time values
-  const times = [...new Set(data?.map(recipe => recipe.time).filter(Boolean))];
+  // Extract unique time values with proper trimming and filtering
+  const times = [...new Set(
+    data?.map(recipe => {
+      // Convert to string first, then trim
+      const timeValue = recipe.time;
+      if (timeValue === null || timeValue === undefined) return null;
+      return String(timeValue).trim();
+    }).filter(time => time && time.length > 0) as string[]
+  )];
   
   // Extract unique tags (if any)
   const allTags: string[] = [];
@@ -97,13 +110,16 @@ export async function getRecipeFilters() {
     if (recipe.tags && Array.isArray(recipe.tags)) {
       recipe.tags.forEach((tag: any) => {
         Object.values(tag).forEach(value => {
-          if (typeof value === 'string' && !allTags.includes(value)) {
-            allTags.push(value);
+          if (typeof value === 'string' && value.trim() && !allTags.includes(value.trim())) {
+            allTags.push(value.trim());
           }
         });
       });
     }
   });
 
-  return { times, tags: allTags };
+  return { 
+    times: times.sort(), 
+    tags: allTags.sort() 
+  };
 }
