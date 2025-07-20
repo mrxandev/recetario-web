@@ -46,6 +46,16 @@ export default function MyRecipesPage() {
   const { showNotification } = useNotification();
 
   // Redirect to login if not authenticated (but only after auth has loaded)
+  useEffect(() => {
+    if (!authLoading && !user) {
+      showNotification(
+        'warning',
+        'Inicia sesión requerido',
+        'Debes iniciar sesión para ver tus recetas favoritas'
+      );
+    }
+  }, [authLoading, user, showNotification]);
+
   if (!authLoading && !user) {
     return <Navigate to="/login" replace />;
   }
