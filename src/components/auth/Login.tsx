@@ -1,27 +1,36 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useNotification } from "../../context/NotificationContext";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock, LogIn, ChefHat } from "lucide-react";
 
 export default function Login() {
   const { login } = useAuth();
+  const { showNotification } = useNotification();
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setIsLoading(true);
-    setErrorMsg(null);
     
     const error = await login(email, password);
 
     if (error) {
-      setErrorMsg(error.message);
+      showNotification(
+        'error',
+        'Error al iniciar sesión',
+        error.message
+      );
     } else {
+      showNotification(
+        'success',
+        'Bienvenido',
+        'Has iniciado sesión correctamente'
+      );
       navigate("/");
     }
     setIsLoading(false);
@@ -51,12 +60,6 @@ export default function Login() {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-gray-700">
-          {errorMsg && (
-            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-xl text-red-400 text-sm">
-              {errorMsg}
-            </div>
-          )}
-
           <div className="space-y-6">
             {/* Email Field */}
             <div>
