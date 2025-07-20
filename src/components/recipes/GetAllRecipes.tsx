@@ -3,6 +3,7 @@ import { getAllRecipes } from '../../services/recipes';
 import { NavLink } from 'react-router-dom';
 import { addToFavorites, removeFromFavorites, isFavorite } from '../../services/favorites';
 import { useAuth } from '../../context/AuthContext';
+import { useNotification } from '../../context/NotificationContext';
 import heart from '../../assets/heart.svg';
 import redheart from '../../assets/redheart.svg';
 
@@ -33,6 +34,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [likes, setLikes] = useState<{ [key: number]: boolean }>({});
   const { user } = useAuth();
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     getAllRecipes()
@@ -61,7 +63,11 @@ export default function Home() {
 
   const handleLike = async (recipeId: number) => {
     if (!user) {
-      alert("Debes iniciar sesión para agregar favoritos");
+      showNotification(
+        'warning',
+        'Inicia sesión requerido',
+        'Debes iniciar sesión para agregar recetas a favoritos'
+      );
       return;
     }
 
@@ -71,13 +77,27 @@ export default function Home() {
       if (currentLikeStatus) {
         await removeFromFavorites(user.id, recipeId);
         setLikes(prev => ({ ...prev, [recipeId]: false }));
+        showNotification(
+          'success',
+          'Eliminado de favoritos',
+          'La receta se ha eliminado de tus favoritos'
+        );
       } else {
         await addToFavorites(user.id, recipeId);
         setLikes(prev => ({ ...prev, [recipeId]: true }));
+        showNotification(
+          'success',
+          'Añadido a favoritos',
+          'La receta se ha agregado a tus favoritos'
+        );
       }
     } catch (error) {
       console.error('Error toggling favorite:', error);
-      alert("Error al actualizar favoritos. Inténtalo de nuevo.");
+      showNotification(
+        'error',
+        'Error al actualizar favoritos',
+        'No se pudo actualizar el estado de favoritos. Inténtalo de nuevo.'
+      );
     }
   };
 

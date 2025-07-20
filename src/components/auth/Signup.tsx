@@ -1,54 +1,43 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useNotification } from "../../context/NotificationContext";
+import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock, UserPlus, ChefHat } from "lucide-react";
 
 export default function Signup() {
   const { signup } = useAuth();
+  const { showNotification } = useNotification();
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [success, setSuccess] = useState<boolean>(false);
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setIsLoading(true);
-    setErrorMsg(null);
     
     const error = await signup(email, password);
     
     if (error) {
-      setErrorMsg(error.message);
+      showNotification(
+        'error',
+        'Error al crear la cuenta',
+        error.message
+      );
     } else {
-      setSuccess(true);
+      showNotification(
+        'success',
+        '¡Cuenta creada con éxito!',
+        'Revisa tu correo electrónico para confirmar tu cuenta y luego inicia sesión'
+      );
+      // Redirigir a login después de un breve delay
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     }
     setIsLoading(false);
   };
-
-  if (success) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black flex items-center justify-center px-4">
-        <div className="relative z-10 max-w-md w-full text-center">
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-gray-700">
-            <div className="inline-flex p-3 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl shadow-2xl mb-4">
-              <ChefHat className="text-white" size={32} />
-            </div>
-            <h2 className="text-2xl font-bold text-white mb-4">¡Cuenta creada!</h2>
-            <p className="text-gray-400 mb-6">
-              Revisa tu correo electrónico para confirmar tu cuenta
-            </p>
-            <a
-              href="/login"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-indigo-500/25"
-            >
-              Ir al inicio de sesión
-            </a>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black flex items-center justify-center px-4">
@@ -74,12 +63,6 @@ export default function Signup() {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-gray-700">
-          {errorMsg && (
-            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-xl text-red-400 text-sm">
-              {errorMsg}
-            </div>
-          )}
-
           <div className="space-y-6">
             {/* Email Field */}
             <div>

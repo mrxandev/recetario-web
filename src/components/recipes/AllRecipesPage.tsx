@@ -3,6 +3,7 @@ import { getAllRecipes, getRecipeFilters } from '../../services/recipes';
 import { NavLink } from 'react-router-dom';
 import { addToFavorites, removeFromFavorites, isFavorite } from '../../services/favorites';
 import { useAuth } from '../../context/AuthContext';
+import { useNotification } from '../../context/NotificationContext';
 import { Search, Filter, Clock, X } from 'lucide-react';
 import heart from '../../assets/heart.svg';
 import redheart from '../../assets/redheart.svg';
@@ -26,7 +27,7 @@ type Recipe = {
   image_url: string;
   video_id: string;
   created_at: string;
-  time: string;
+  time: string | number;
   tags?: Array<{ [key: number]: string }>;
 };
 
@@ -39,6 +40,7 @@ export default function AllRecipesPage() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [likes, setLikes] = useState<{ [key: number]: boolean }>({});
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTimeFilter, setSelectedTimeFilter] = useState<string>('');
@@ -46,6 +48,7 @@ export default function AllRecipesPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [availableFilters, setAvailableFilters] = useState<Filters>({ times: [], tags: [] });
   const { user } = useAuth();
+  const { showNotification } = useNotification();
 
   // Load all recipes and filters
   useEffect(() => {
@@ -56,9 +59,9 @@ export default function AllRecipesPage() {
           getRecipeFilters()
         ]);
         
-        setRecipes(recipesData);
-        setFilteredRecipes(recipesData);
-        setAvailableFilters(filtersData);
+        setRecipes(recipesData || []);
+        setFilteredRecipes(recipesData || []);
+        setAvailableFilters(filtersData || { times: [], tags: [] });
 
         // Check favorites status for each recipe if user is logged in
         if (user) {
@@ -76,6 +79,8 @@ export default function AllRecipesPage() {
         }
       } catch (error) {
         console.error('Error loading data:', error);
+        setError('Error al cargar las recetas');
+        showNotification('error', 'Error', 'No se pudieron cargar las recetas');
       } finally {
         setLoading(false);
       }
@@ -102,9 +107,14 @@ export default function AllRecipesPage() {
       );
     }
 
-    // Apply time filter
+    // Apply time filter - improved comparison with normalization
     if (selectedTimeFilter) {
-      result = result.filter(recipe => recipe.time === selectedTimeFilter);
+      result = result.filter(recipe => {
+        // Convert both values to strings for comparison
+        const recipeTime = recipe.time ? String(recipe.time).trim().toLowerCase() : '';
+        const filterTime = String(selectedTimeFilter).trim().toLowerCase();
+        return recipeTime === filterTime;
+      });
     }
 
     // Apply tag filter
@@ -122,7 +132,11 @@ export default function AllRecipesPage() {
 
   const handleLike = async (recipeId: number) => {
     if (!user) {
-      alert("Debes iniciar sesión para agregar favoritos");
+      showNotification(
+        'warning',
+        'Inicia sesión requerido',
+        'Debes iniciar sesión para agregar recetas a favoritos'
+      );
       return;
     }
 
@@ -132,13 +146,27 @@ export default function AllRecipesPage() {
       if (currentLikeStatus) {
         await removeFromFavorites(user.id, recipeId);
         setLikes(prev => ({ ...prev, [recipeId]: false }));
+        showNotification(
+          'success',
+          'Eliminado de favoritos',
+          'La receta se ha eliminado de tus favoritos'
+        );
       } else {
         await addToFavorites(user.id, recipeId);
         setLikes(prev => ({ ...prev, [recipeId]: true }));
+        showNotification(
+          'success',
+          'Añadido a favoritos',
+          'La receta se ha agregado a tus favoritos'
+        );
       }
     } catch (error) {
       console.error('Error toggling favorite:', error);
-      alert("Error al actualizar favoritos. Inténtalo de nuevo.");
+      showNotification(
+        'error',
+        'Error al actualizar favoritos',
+        'No se pudo actualizar el estado de favoritos. Inténtalo de nuevo.'
+      );
     }
   };
 
@@ -152,8 +180,29 @@ export default function AllRecipesPage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-500"></div>
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black flex justify-center items-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-4 border-gray-700 border-t-indigo-500 mx-auto mb-6"></div>
+          <p className="text-gray-400 text-lg">Cargando recetas...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black flex justify-center items-center">
+        <div className="text-center">
+          <div className="text-8xl mb-6 opacity-50">😞</div>
+          <h2 className="text-2xl font-semibold mb-4 text-white">Error al cargar recetas</h2>
+          <p className="text-gray-400 mb-8">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-indigo-500/25 font-medium text-white"
+          >
+            Reintentar
+          </button>
+        </div>
       </div>
     );
   }
@@ -360,7 +409,11 @@ export default function AllRecipesPage() {
             <h3 className="text-2xl font-semibold mb-6 text-center text-white">Filtrado rápido por tiempo</h3>
             <div className="flex flex-wrap justify-center gap-3">
               {availableFilters.times.map((time) => {
-                const count = recipes.filter(r => r.time === time).length;
+                const count = recipes.filter(r => {
+                  const recipeTime = r.time ? String(r.time).trim().toLowerCase() : '';
+                  const filterTime = String(time).trim().toLowerCase();
+                  return recipeTime === filterTime;
+                }).length;
                 return (
                   <button
                     key={time}
