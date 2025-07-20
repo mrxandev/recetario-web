@@ -7,14 +7,12 @@ import RecipesGallery from "../components/recipes/RecipesGallery"
 
 function Home() {
   return (
-  <>
-
-<Hero/>
-<RecipesGallery/>
-<RecipesCategoryCards/>
-<LatestRecipes/>
-  </>
-
+    <div className="min-h-screen bg-gray-950">
+      <Hero/>
+      <RecipesGallery/>
+      <RecipesCategoryCards/>
+      <LatestRecipes/>
+    </div>
   )
 }
 

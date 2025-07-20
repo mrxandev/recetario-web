@@ -170,14 +170,14 @@ function Recipe() {
             {recipe.video_id && (
                 <div className="mb-8">
                     <h2 className="text-2xl font-bold mb-4 text-orange-300">Video de Preparación:</h2>
-                    <div className="relative" style={{ paddingBottom: '56.25%', height: 0 }}>
+                    <div className="relative aspect-video">
                         <iframe
                             src={`https://www.youtube.com/embed/${recipe.video_id}`}
                             title="YouTube video player"
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
-                            className="absolute top-0 left-0 w-full h-full rounded-lg shadow-xl"
+                            className="absolute inset-0 w-full h-full rounded-lg shadow-xl"
                         ></iframe>
                     </div>
                 </div>

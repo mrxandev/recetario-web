@@ -1,10 +1,9 @@
-import GetAllRecipes from "../components/recipes/GetAllRecipes"
+import AllRecipesPage from "../components/recipes/AllRecipesPage"
 
 function Recetas() {
   return (
     <>
-     
-      <GetAllRecipes/>
+      <AllRecipesPage/>
     </>
   );
 }
