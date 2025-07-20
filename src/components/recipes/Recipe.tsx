@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getSpecifictRecipe } from "../../services/recipes";
 import { addToFavorites, removeFromFavorites, isFavorite } from "../../services/favorites";
 import { useAuth } from "../../context/AuthContext";
+import { useNotification } from "../../context/NotificationContext";
 import { Clock, Heart, ChefHat, PlayCircle, Tag } from "lucide-react";
 
 
@@ -36,6 +37,7 @@ function Recipe() {
     const [error, setError] = useState<string | null>(null);
     const [isLike, setIsLike] = useState(false);
     const { user } = useAuth();
+    const { showNotification } = useNotification();
 
     useEffect(() => {
         if (recipeId) {
@@ -75,7 +77,11 @@ function Recipe() {
 
     const handleLikeToggle = async () => {
         if (!user || !recipe) {
-            alert("Debes iniciar sesión para agregar favoritos");
+            showNotification(
+                'warning',
+                'Inicio de sesión requerido',
+                'Debes iniciar sesión para agregar recetas a favoritos'
+            );
             return;
         }
 
@@ -83,13 +89,27 @@ function Recipe() {
             if (isLike) {
                 await removeFromFavorites(user.id, recipe.id);
                 setIsLike(false);
+                showNotification(
+                    'info',
+                    'Eliminado de favoritos',
+                    `"${recipe.title}" ha sido eliminada de tus favoritos`
+                );
             } else {
                 await addToFavorites(user.id, recipe.id);
                 setIsLike(true);
+                showNotification(
+                    'success',
+                    'Agregado a favoritos',
+                    `"${recipe.title}" ha sido agregada a tus favoritos`
+                );
             }
         } catch (error) {
             console.error("Error toggling favorite:", error);
-            alert("Error al actualizar favoritos. Inténtalo de nuevo.");
+            showNotification(
+                'error',
+                'Error al actualizar favoritos',
+                'No se pudo actualizar la lista de favoritos. Inténtalo de nuevo.'
+            );
         }
     };
 

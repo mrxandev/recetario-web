@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getUserFavorites, removeFromFavorites } from '../services/favorites';
 import { useAuth } from '../context/AuthContext';
+import { useNotification } from '../context/NotificationContext';
 import { NavLink, Navigate } from 'react-router-dom';
 import { Search, Clock, Trash2, Heart } from 'lucide-react';
 
@@ -42,6 +43,7 @@ export default function MyRecipesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [removingId, setRemovingId] = useState<number | null>(null);
   const { user, loading: authLoading } = useAuth();
+  const { showNotification } = useNotification();
 
   // Redirect to login if not authenticated (but only after auth has loaded)
   if (!authLoading && !user) {
@@ -111,9 +113,18 @@ export default function MyRecipesPage() {
           step.instruction.toLowerCase().includes(searchQuery.toLowerCase())
         )
       ));
+      showNotification(
+        'success',
+        'Eliminado de favoritos',
+        'La receta se ha eliminado de tus favoritos'
+      );
     } catch (error) {
       console.error('Error removing favorite:', error);
-      alert("Error al quitar de favoritos. Inténtalo de nuevo.");
+      showNotification(
+        'error',
+        'Error al eliminar favorito',
+        'No se pudo quitar la receta de favoritos. Inténtalo de nuevo.'
+      );
     } finally {
       setRemovingId(null);
     }
