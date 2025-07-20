@@ -29,6 +29,14 @@ function Navbar() {
           >
             Recetas
           </a>
+          {user && (
+            <a
+              href="/misrecetas"
+              className="text-white hover:text-indigo-500 transition-colors duration-300"
+            >
+              Mis Recetas
+            </a>
+          )}
           <a
             href="/nosotros"
             className="text-white hover:text-indigo-500 transition-colors duration-300"
@@ -73,6 +81,15 @@ function Navbar() {
           >
             Recetas
           </a>
+          {user && (
+            <a
+              href="/misrecetas"
+              className="block text-white hover:text-indigo-500 transition-colors duration-300"
+              onClick={() => setIsOpen(false)}
+            >
+              Mis Recetas
+            </a>
+          )}
           <a
             href="/nosotros"
             className="block text-white hover:text-indigo-500 transition-colors duration-300"
