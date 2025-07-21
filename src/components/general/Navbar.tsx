@@ -16,8 +16,20 @@ const Navbar = () => {
     try {
       await logout();
       setIsUserMenuOpen(false);
+      showNotification(
+        'success',
+        'Sesión cerrada',
+        'Has cerrado sesión correctamente'
+      );
+      // Redirigir al home después del logout
+      navigate('/');
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
+      showNotification(
+        'error',
+        'Error al cerrar sesión',
+        'Hubo un problema al cerrar la sesión'
+      );
     }
   };
 
