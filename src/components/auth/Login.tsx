@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNotification } from "../../context/NotificationContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock, LogIn, ChefHat } from "lucide-react";
 
 export default function Login() {
   const { login } = useAuth();
   const { showNotification } = useNotification();
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -31,7 +32,10 @@ export default function Login() {
         'Bienvenido',
         'Has iniciado sesión correctamente'
       );
-      navigate("/");
+      
+      
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true });
     }
     setIsLoading(false);
   };
