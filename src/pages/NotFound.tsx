@@ -1,5 +1,5 @@
 
-import { ChefHat, Home, Search, Clock, Heart, Sparkles } from "lucide-react"
+import { ChefHat, Home, Search, Clock, Heart } from "lucide-react"
 import { Link } from "react-router-dom"
 
 export default function NotFound() {
