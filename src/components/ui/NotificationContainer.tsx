@@ -90,7 +90,7 @@ export const NotificationContainer: React.FC<NotificationContainerProps> = ({
   if (notifications.length === 0) return null;
 
   return (
-    <div className="fixed top-4 right-4 z-50 flex flex-col gap-3 max-w-sm w-full">
+    <div className="fixed top-4 left-4 right-4 sm:left-auto sm:right-4 sm:max-w-sm z-50 flex flex-col gap-3">
       {notifications.map((notification) => (
         <NotificationItem
           key={notification.id}
