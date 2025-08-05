@@ -21,7 +21,7 @@ function Hero() {
     }
   };
   return (
-    <div className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center px-4 pt-20 sm:pt-0 overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-950 to-black"></div>
       <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -30,11 +30,11 @@ function Hero() {
       {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto text-center">
         {/* Icon with animation */}
-        <div className="mb-8 relative">
+        <div className="mb-8 relative pt-4 sm:pt-0">
           <div className="inline-flex p-4 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-2xl animate-float">
             <ChefHat className="text-white" size={60} />
           </div>
-          <div className="absolute -top-2 -right-2">
+          <div className="absolute -top-0 sm:-top-2 -right-2">
             <Sparkles className="text-yellow-400 animate-pulse" size={24} />
           </div>
         </div>

@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
-import { User, ChevronDown, LogOut } from 'lucide-react';
+import { useCart } from '../../context/CartContext';
+import { User, ChevronDown, LogOut, ShoppingBag } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { user, logout } = useAuth();
   const { showNotification } = useNotification();
+  const { state, toggleCart } = useCart();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -110,6 +112,19 @@ const Navbar = () => {
 
           {/* Auth Section - Desktop */}
           <div className="hidden lg:flex items-center space-x-4">
+            {/* Cart Button */}
+            <button
+              onClick={toggleCart}
+              className="relative p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all duration-200 group"
+            >
+              <ShoppingBag className="h-5 w-5 text-gray-300 group-hover:text-white" />
+              {state.items.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                  {state.items.length}
+                </span>
+              )}
+            </button>
+
             {user ? (
               <div className="relative">
                 <button
@@ -138,6 +153,13 @@ const Navbar = () => {
                     <p className="text-white font-medium truncate">{user.email}</p>
                   </div>
                   <div className="p-2">
+                    <Link
+                      to="/compradas"
+                      className="w-full flex items-center space-x-3 px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200 mb-1"
+                    >
+                      <ShoppingBag size={16} />
+                      <span>Recetas Compradas</span>
+                    </Link>
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center space-x-3 px-3 py-2 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-lg transition-all duration-200"
@@ -167,7 +189,20 @@ const Navbar = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="lg:hidden">
+          <div className="lg:hidden flex items-center space-x-2">
+            {/* Cart Button - Mobile */}
+            <button
+              onClick={toggleCart}
+              className="relative p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all duration-200 group"
+            >
+              <ShoppingBag className="h-5 w-5 text-gray-300 group-hover:text-white" />
+              {state.items.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                  {state.items.length}
+                </span>
+              )}
+            </button>
+            
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-colors duration-200"
@@ -249,6 +284,15 @@ const Navbar = () => {
                     <p className="text-white font-medium truncate text-sm">{user.email}</p>
                   </div>
                 </div>
+                
+                <Link
+                  to="/compradas"
+                  className="w-full flex items-center space-x-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200"
+                >
+                  <ShoppingBag size={16} />
+                  <span>Recetas Compradas</span>
+                </Link>
+                
                 <button
                   onClick={handleLogout}
                   className="w-full flex items-center space-x-3 px-4 py-3 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-lg transition-all duration-200"

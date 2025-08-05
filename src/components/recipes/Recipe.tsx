@@ -5,6 +5,7 @@ import { addToFavorites, removeFromFavorites, isFavorite } from "../../services/
 import { useAuth } from "../../context/AuthContext";
 import { useNotification } from "../../context/NotificationContext";
 import { Clock, Heart, ChefHat, PlayCircle, Tag } from "lucide-react";
+import AddToCartButton from "../cart/AddToCartButton";
 
 
 type Ingredient = {
@@ -200,17 +201,35 @@ function Recipe() {
                                 </div>
                             </div>
 
-                            {/* Favorite button */}
-                            <button
-                                onClick={handleLikeToggle}
-                                className={`p-4 rounded-full backdrop-blur-sm border-2 transition-all duration-300 transform hover:scale-110 ${
-                                    isLike 
-                                        ? 'bg-red-500/20 border-red-500 text-red-400 hover:bg-red-500/30' 
-                                        : 'bg-gray-800/50 border-gray-600 text-gray-400 hover:border-red-500 hover:text-red-400'
-                                }`}
-                            >
-                                <Heart size={28} fill={isLike ? 'currentColor' : 'none'} />
-                            </button>
+                            {/* Action buttons */}
+                            <div className="flex flex-col sm:flex-row items-center gap-4">
+                                {/* Add to Cart Button */}
+                                <AddToCartButton
+                                    recipe={{
+                                        id: recipe.id.toString(),
+                                        title: recipe.title,
+                                        image: recipe.image_url,
+                                        category: recipe.tags?.[0] ? Object.values(recipe.tags[0])[0] : 'Recetas',
+                                        cookingTime: `${recipe.time} min`,
+                                        difficulty: 'Medio',
+                                    }}
+                                    price={12.99}
+                                    isPremium={true}
+                                    className="w-full sm:w-auto"
+                                />
+
+                                {/* Favorite button */}
+                                <button
+                                    onClick={handleLikeToggle}
+                                    className={`p-4 rounded-full backdrop-blur-sm border-2 transition-all duration-300 transform hover:scale-110 ${
+                                        isLike 
+                                            ? 'bg-red-500/20 border-red-500 text-red-400 hover:bg-red-500/30' 
+                                            : 'bg-gray-800/50 border-gray-600 text-gray-400 hover:border-red-500 hover:text-red-400'
+                                    }`}
+                                >
+                                    <Heart size={28} fill={isLike ? 'currentColor' : 'none'} />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
