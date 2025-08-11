@@ -53,7 +53,7 @@ src/
 
 1. **Clonar el repositorio**
    ```bash
-   git clone [url-del-repo]
+   git clone https://github.com/mrxandev/recetario-web.git
    cd recetario-web
    ```
 
